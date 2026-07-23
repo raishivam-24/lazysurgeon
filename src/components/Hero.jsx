@@ -1,61 +1,61 @@
-import './Hero.css'
+import Reveal from './Reveal.jsx'
+import heroImg from '../assets/hero.jpg'
 
-const CHIPS = [
-  '8-hr battery backup',
-  'Voice-command control',
-  '3X magnification',
-  'Clamps in seconds',
-]
+const badges = ['8-hr battery backup', 'Voice-command control', '3X magnification', 'Clamps in seconds']
 
 export default function Hero() {
   return (
-    <section className="hero">
-      <div className="hero__sweep" aria-hidden="true"></div>
-
-      <div className="hero__inner">
-        <div className="hero__copy">
-          <p className="hero__eyebrow">The all-in-one portable OT light</p>
-
-          <h1 className="hero__title">
-            LUMIFLEX<span className="hero__trademark">™</span>
+    <section id="top" className="navy-grad text-white pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
+      <div className="absolute -right-40 -top-40 w-[560px] h-[560px] rounded-full bg-accent/10 blur-3xl pointer-events-none"></div>
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-center relative">
+        <Reveal>
+          <p className="text-xs md:text-sm tracking-[0.25em] text-white/60 font-semibold mb-5">
+            THE ALL-IN-ONE PORTABLE OT LIGHT
+          </p>
+          <h1 className="font-display text-5xl md:text-6xl font-extrabold leading-[1.02] mb-6">
+            LUMI<span className="italic text-accent">FLEX</span>
+            <span className="align-top text-xl">™</span>
           </h1>
-
-          <div className="hero__sub">
-            <h2 className="hero__tagline">
-              Light. Record. Assist.
-              <br />
-              <span className="hero__tagline--strong">All in One.</span>
-            </h2>
-            <p className="hero__desc">
-              One clamp-anywhere light that ends shadows, outlasts power cuts,
-              records your procedures and answers to your voice — so your
-              hands never leave the field.
+          <p className="font-display text-2xl md:text-3xl font-light mb-1">Light. Record. Assist.</p>
+          <p className="font-display text-2xl md:text-3xl font-bold mb-6">All in One.</p>
+          <p className="text-white/75 leading-relaxed max-w-md mb-8">
+            One clamp-anywhere light that ends shadows, outlasts power cuts, records your
+            procedures and answers to your voice — so your hands never leave the field.
+          </p>
+          <div className="flex flex-wrap gap-3 mb-10">
+            {badges.map((b) => (
+              <span key={b} className="text-sm border border-white/25 rounded-full px-4 py-2 text-white/85">
+                {b}
+              </span>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-6">
+            <a href="#pricing" className="bg-accent hover:bg-accent/90 transition px-6 py-3 rounded-full font-semibold">
+              Book a free clinic demo
+            </a>
+            <p className="text-sm text-white/60">
+              <span className="font-semibold text-white">LITE</span> ₹14,999 &nbsp;·&nbsp;
+              <span className="font-semibold text-white">PRO</span> ₹19,999 &nbsp;·&nbsp;
+              <span className="font-semibold text-white">ULTRA</span> ₹29,999
             </p>
           </div>
-
-          <ul className="hero__chips">
-            {CHIPS.map((chip) => (
-              <li key={chip} className="hero__chip">
-                {chip}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="hero__frame">
-          <span className="hero__bracket hero__bracket--tl" aria-hidden="true"></span>
-          <span className="hero__bracket hero__bracket--tr" aria-hidden="true"></span>
-          <span className="hero__bracket hero__bracket--bl" aria-hidden="true"></span>
-          <span className="hero__bracket hero__bracket--br" aria-hidden="true"></span>
-
-          <img
-            className="hero__image"
-            alt="A highly detailed, professional product photography diagram of an advanced portable medical operating theater light system called Lumiflex. The device is pristine white with black and metallic accents, featuring a multi-articulated flexible gooseneck, a ring light head, a magnifying lens attachment, a smartphone holder, and a stainless steel surgical instrument tray. It is securely clamped to a bed rail."
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHGqwFN5N0hu9WDYY5eDF0mMvSZ7lVSatwRbT5HGx1-tTMhrRppCylk7qccXa_cZgztRZ2gJLg7NunmUsV_j0PowXp5cxuVxhRh7MHOIGs-pS_9kHSB9k6R8TgEF6hUU37W0W2Z4GPaVWFeoMCwo2nWU6Y5U6IVvFP1rJhTOM4y4MEQS939jJT9IvXxz-8ZOWSE1gsB_CoQRbZL4Byr3MUYn2sqe9GeUZdx5fA4LqWq3vhU5LYaeI-"
-          />
-
-          <p className="hero__caption">LUMIFLEX™ · shown with Ultra assist suite</p>
-        </div>
+        </Reveal>
+        <Reveal delay={150} className="flex flex-col items-center">
+          <div className="bg-white rounded-3xl p-3 shadow-2xl shadow-black/40 max-w-xs w-full">
+            <img
+              src={heroImg}
+              alt="Lumiflex portable OT light, clamped with phone stand, instrument tray and magnifier"
+              className="w-full h-auto rounded-2xl"
+            />
+          </div>
+          <p className="text-xs text-white/50 mt-4 tracking-wide">LUMIFLEX™ · shown with Ultra assist suite</p>
+        </Reveal>
+      </div>
+      <div className="max-w-6xl mx-auto px-6 mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p className="italic text-white/70 text-sm">
+          <span className="font-semibold not-italic text-white">By surgeons,</span> for surgeons.
+        </p>
+        <p className="text-white/50 text-sm">www.thelazysurgeon.com</p>
       </div>
     </section>
   )

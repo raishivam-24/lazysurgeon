@@ -1,23 +1,19 @@
-import Header from './components/Header.jsx'
+import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
-import ModelStrip from './components/ModelStrip.jsx'
-import WhySection from './components/WhySection.jsx'
-import FeaturesSection from './components/FeaturesSection.jsx'
-import ModelsSection from './components/ModelsSection.jsx'
-import Footer from './components/Footer.jsx'
+import Features from './components/Features.jsx'
+import WhyLumiflex from './components/WhyLumiflex.jsx'
+import Pricing from './components/Pricing.jsx'
+import FooterCTA from './components/FooterCTA.jsx'
 
 export default function App() {
   return (
-    <div id="top">
-      <Header />
-      <main>
-        <Hero />
-        <ModelStrip />
-        <WhySection />
-        <FeaturesSection />
-        <ModelsSection />
-      </main>
-      <Footer />
+    <div>
+      <Nav />
+      <Hero />
+      <Features />
+      <WhyLumiflex />
+      <Pricing />
+      <FooterCTA />
     </div>
   )
 }
