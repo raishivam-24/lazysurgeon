@@ -1,4 +1,5 @@
 import Reveal from './Reveal.jsx'
+import AnimatedBackground from './AnimatedBackground.jsx'
 import { FeatureIcon } from './icons.jsx'
 
 const features = [
@@ -48,8 +49,10 @@ export default function Features() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((f, i) => (
             <Reveal key={f.title} delay={i * 60}>
-              <div className="border border-slate-200 rounded-2xl p-6 h-full hover:shadow-lg hover:-translate-y-0.5 transition bg-white">
-                <FeatureIcon name={f.icon} />
+              <div className="group tilt-card border border-slate-200 rounded-2xl p-6 h-full hover:shadow-xl hover:border-accent/30 transition bg-white">
+                <div className="icon-pop inline-flex">
+                  <FeatureIcon name={f.icon} />
+                </div>
                 <h3 className="font-display font-bold text-navy mb-2">{f.title}</h3>
                 <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
               </div>
@@ -58,8 +61,9 @@ export default function Features() {
         </div>
 
         <Reveal delay={100}>
-          <div className="navy-grad rounded-3xl mt-6 p-8 md:p-10 grid md:grid-cols-[1fr_auto] gap-8 items-center text-white">
-            <div>
+          <div className="navy-grad rounded-3xl mt-6 p-8 md:p-10 grid md:grid-cols-[1fr_auto] gap-8 items-center text-white relative overflow-hidden">
+            <AnimatedBackground variant="banner" />
+            <div className="relative">
               <p className="text-gold text-xs tracking-[0.25em] font-bold mb-3">SIGNATURE FEATURE</p>
               <h3 className="font-display text-2xl md:text-3xl font-extrabold mb-3">Say the word. The light obeys.</h3>
               <p className="text-white/70 max-w-xl leading-relaxed">
@@ -67,12 +71,12 @@ export default function Features() {
                 Lumiflex switches mode instantly — the #1 feature clinicians asked us to build.
               </p>
             </div>
-            <div className="flex gap-5">
-              {colorModes.map(([label, color]) => (
-                <div key={label} className="flex flex-col items-center gap-2">
+            <div className="flex gap-5 relative">
+              {colorModes.map(([label, color], i) => (
+                <div key={label} className="flex flex-col items-center gap-2 group/swatch">
                   <span
-                    className="w-12 h-12 rounded-full border border-white/20 shadow-inner"
-                    style={{ background: color }}
+                    className="w-12 h-12 rounded-full border border-white/20 shadow-inner transition-transform duration-300 group-hover/swatch:scale-125"
+                    style={{ background: color, animation: `pulseGlow 2.4s ease-in-out ${i * 0.3}s infinite` }}
                   ></span>
                   <span className="text-xs text-white/70">{label}</span>
                 </div>
@@ -87,7 +91,7 @@ export default function Features() {
               AT A GLANCE
             </p>
             {glance.map(([big, small]) => (
-              <div key={big}>
+              <div key={big} className="transition-transform duration-300 hover:-translate-y-1 cursor-default">
                 <p className="font-display font-extrabold text-accent text-xl">{big}</p>
                 <p className="text-xs text-slate-500 mt-1">{small}</p>
               </div>

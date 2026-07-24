@@ -36,6 +36,49 @@ const chartData = [
   ['No battery during power cuts', 19],
 ]
 
+function CountUp({ text, delay = 0 }) {
+  const ref = useRef(null)
+  const [show, setShow] = useState(false)
+  const match = text.match(/^(\D*)(\d+)(.*)$/)
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setTimeout(() => setShow(true), delay)
+      },
+      { threshold: 0.4 }
+    )
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [delay])
+
+  if (!match) return <span ref={ref}>{text}</span>
+
+  const [, prefix, digits, suffix] = match
+  const target = parseInt(digits, 10)
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    if (!show) return
+    const duration = 900
+    const start = performance.now()
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1)
+      setCount(Math.round(target * (1 - Math.pow(1 - progress, 3))))
+      if (progress < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }, [show, target])
+
+  return (
+    <span ref={ref}>
+      {prefix}
+      {count}
+      {suffix}
+    </span>
+  )
+}
+
 function BarRow({ label, value, max, delay }) {
   const ref = useRef(null)
   const [show, setShow] = useState(false)
@@ -87,31 +130,35 @@ export default function WhyLumiflex() {
 
         <div className="grid md:grid-cols-2 gap-6 mb-14">
           <Reveal>
-            <div className="bg-white border border-slate-200 rounded-2xl p-7 h-full">
+            <div className="hover-lift bg-white border border-slate-200 rounded-2xl p-7 h-full hover:shadow-xl">
               <p className="text-xs tracking-[0.2em] font-bold text-slate-400 mb-5">SOUND FAMILIAR?</p>
               <ul className="space-y-4">
-                {frustrations.map((f) => (
-                  <li key={f} className="flex gap-3 text-sm text-slate-600 leading-relaxed">
-                    <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-red-50 text-red-500 flex items-center justify-center">
-                      <Icon path={icons.cross} className="w-3 h-3" />
-                    </span>
-                    {f}
-                  </li>
+                {frustrations.map((f, i) => (
+                  <Reveal key={f} delay={i * 80}>
+                    <li className="flex gap-3 text-sm text-slate-600 leading-relaxed group">
+                      <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-red-50 text-red-500 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-90">
+                        <Icon path={icons.cross} className="w-3 h-3" />
+                      </span>
+                      {f}
+                    </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
           </Reveal>
           <Reveal delay={100}>
-            <div className="navy-grad rounded-2xl p-7 h-full text-white">
+            <div className="hover-lift navy-grad rounded-2xl p-7 h-full text-white hover:shadow-xl hover:shadow-accent/20">
               <p className="text-xs tracking-[0.2em] font-bold text-white/50 mb-5">THE LUMIFLEX ANSWER</p>
               <ul className="space-y-4">
-                {answers.map((a) => (
-                  <li key={a} className="flex gap-3 text-sm text-white/80 leading-relaxed">
-                    <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-white/15 text-white flex items-center justify-center">
-                      <Icon path={icons.check} className="w-3 h-3" />
-                    </span>
-                    {a}
-                  </li>
+                {answers.map((a, i) => (
+                  <Reveal key={a} delay={i * 80}>
+                    <li className="flex gap-3 text-sm text-white/80 leading-relaxed group">
+                      <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-white/15 text-white flex items-center justify-center transition-transform duration-300 group-hover:scale-125" style={{ animation: `pulseGlow 2.6s ease-in-out ${i * 0.25}s infinite` }}>
+                        <Icon path={icons.check} className="w-3 h-3" />
+                      </span>
+                      {a}
+                    </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
@@ -121,8 +168,10 @@ export default function WhyLumiflex() {
         <div className="grid sm:grid-cols-3 gap-6 mb-16">
           {stats.map(([big, small], i) => (
             <Reveal key={big} delay={i * 100}>
-              <div className="text-center border border-slate-200 bg-white rounded-2xl py-8 px-5 h-full">
-                <p className="font-display text-3xl font-extrabold text-accent mb-2">{big}</p>
+              <div className="hover-lift text-center border border-slate-200 bg-white rounded-2xl py-8 px-5 h-full hover:shadow-xl hover:border-accent/30">
+                <p className="font-display text-3xl font-extrabold text-accent mb-2">
+                  <CountUp text={big} delay={i * 120} />
+                </p>
                 <p className="text-sm text-slate-500 leading-relaxed">{small}</p>
               </div>
             </Reveal>
@@ -132,7 +181,7 @@ export default function WhyLumiflex() {
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           {useCases.map(([eyebrow, title, desc], i) => (
             <Reveal key={title} delay={i * 100}>
-              <div className="bg-white border border-slate-200 rounded-2xl p-7 h-full">
+              <div className="tilt-card bg-white border border-slate-200 rounded-2xl p-7 h-full hover:shadow-xl hover:border-accent/30">
                 <p className="text-accent text-xs tracking-[0.2em] font-bold mb-4">{eyebrow}</p>
                 <h4 className="font-display font-bold text-navy mb-2">{title}</h4>
                 <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>

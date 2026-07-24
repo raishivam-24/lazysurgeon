@@ -71,11 +71,20 @@ export default function Pricing() {
           {plans.map((p, i) => (
             <Reveal key={p.name} delay={i * 100}>
               <div
-                className={`rounded-2xl p-7 h-full flex flex-col border ${
-                  p.tag ? 'navy-grad text-white border-transparent shadow-2xl md:-translate-y-3' : 'border-slate-200 text-navy'
+                className={`hover-lift rounded-2xl p-7 h-full flex flex-col border ${
+                  p.tag
+                    ? 'navy-grad text-white border-transparent shadow-2xl md:-translate-y-3 hover:shadow-accent/30'
+                    : 'border-slate-200 text-navy hover:shadow-xl hover:border-accent/30'
                 }`}
               >
-                {p.tag && <span className="text-gold text-xs font-bold tracking-widest mb-3">{p.tag}</span>}
+                {p.tag && (
+                  <span
+                    className="text-gold text-xs font-bold tracking-widest mb-3 inline-block w-fit"
+                    style={{ animation: 'pulseGlow 2.4s ease-in-out infinite' }}
+                  >
+                    {p.tag}
+                  </span>
+                )}
                 <p className="font-display font-extrabold text-xl mb-1">
                   LUMIFLEX <span className="text-accent">{p.name}</span>
                 </p>
@@ -85,7 +94,7 @@ export default function Pricing() {
                 <p className={`text-xs mb-6 ${p.tag ? 'text-white/60' : 'text-slate-400'}`}>{p.sub}</p>
                 <a
                   href="#"
-                  className={`mt-auto text-center rounded-full px-5 py-3 font-semibold transition ${
+                  className={`magnetic-btn mt-auto text-center rounded-full px-5 py-3 font-semibold transition ${
                     p.tag ? 'bg-accent hover:bg-accent/90' : 'bg-navy text-white hover:bg-navy/90'
                   }`}
                 >
@@ -98,7 +107,7 @@ export default function Pricing() {
 
         <Reveal>
           <div className="grid md:grid-cols-2 gap-6 mb-16">
-            <div className="border border-slate-200 rounded-2xl p-7">
+            <div className="hover-lift border border-slate-200 rounded-2xl p-7 hover:shadow-xl">
               <p className="text-xs tracking-[0.2em] font-bold text-slate-400 mb-5">THE REAL VALUE OF ULTRA</p>
               <ul className="space-y-2.5 text-sm">
                 {valueRows.map(([label, val]) => (
@@ -117,22 +126,24 @@ export default function Pricing() {
                 <span className="font-semibold text-navy">₹29,999</span>
               </div>
               <div
-                className="mt-4 inline-block text-sm font-bold px-4 py-2 rounded-full"
-                style={{ color: '#b6820f', background: '#fdf3dc' }}
+                className="mt-4 inline-block text-sm font-bold px-4 py-2 rounded-full transition-transform hover:scale-105"
+                style={{ color: '#b6820f', background: '#fdf3dc', animation: 'pulseGlow 2.6s ease-in-out infinite' }}
               >
                 YOU SAVE ₹3,996
               </div>
             </div>
-            <div className="border border-slate-200 rounded-2xl p-7">
+            <div className="hover-lift border border-slate-200 rounded-2xl p-7 hover:shadow-xl">
               <p className="text-xs tracking-[0.2em] font-bold text-slate-400 mb-5">EVERY LUMIFLEX INCLUDES</p>
               <ul className="space-y-3 text-sm text-slate-600">
-                {includes.map((x) => (
-                  <li key={x} className="flex gap-3 items-center">
-                    <span className="w-5 h-5 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0">
-                      <Icon path={icons.check} className="w-3 h-3" />
-                    </span>
-                    {x}
-                  </li>
+                {includes.map((x, i) => (
+                  <Reveal key={x} delay={i * 70}>
+                    <li className="flex gap-3 items-center group">
+                      <span className="w-5 h-5 rounded-full bg-accent/10 text-accent flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-125">
+                        <Icon path={icons.check} className="w-3 h-3" />
+                      </span>
+                      {x}
+                    </li>
+                  </Reveal>
                 ))}
               </ul>
               <p className="text-xs tracking-[0.2em] font-bold text-slate-400 mt-7 mb-4">ADD-ONS · LITE &amp; PRO</p>
@@ -161,7 +172,7 @@ export default function Pricing() {
               </thead>
               <tbody>
                 {compareRows.map(([label, l, p, u], i) => (
-                  <tr key={label} className={i % 2 ? 'bg-white' : 'bg-offwhite/50'}>
+                  <tr key={label} className={`transition-colors hover:bg-accentlight/60 ${i % 2 ? 'bg-white' : 'bg-offwhite/50'}`}>
                     <td className="py-3.5 px-6 text-slate-600">{label}</td>
                     <td className="text-center">
                       <Cell ok={l} />
@@ -182,16 +193,18 @@ export default function Pricing() {
         <Reveal>
           <p className="text-xs tracking-[0.2em] font-bold text-slate-400 mb-6">HOW TO BUY</p>
           <div className="grid sm:grid-cols-3 gap-6">
-            {howToBuy.map(([n, t, d]) => (
-              <div key={n} className="flex gap-4">
-                <span className="w-9 h-9 rounded-full bg-navy text-white flex items-center justify-center font-display font-bold shrink-0">
-                  {n}
-                </span>
-                <div>
-                  <p className="font-display font-bold text-navy mb-1">{t}</p>
-                  <p className="text-sm text-slate-500 leading-relaxed">{d}</p>
+            {howToBuy.map(([n, t, d], i) => (
+              <Reveal key={n} delay={i * 100}>
+                <div className="flex gap-4 group cursor-default">
+                  <span className="w-9 h-9 rounded-full bg-navy text-white flex items-center justify-center font-display font-bold shrink-0 transition-all duration-300 group-hover:bg-accent group-hover:scale-110">
+                    {n}
+                  </span>
+                  <div>
+                    <p className="font-display font-bold text-navy mb-1">{t}</p>
+                    <p className="text-sm text-slate-500 leading-relaxed">{d}</p>
+                  </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Reveal>
